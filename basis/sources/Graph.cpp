@@ -7,7 +7,7 @@
 using namespace GraphType;
 
 Graph::Graph(int node_num, bool directed, bool weighted) :
-        _directed(directed),
+        _directed(false),
         _weighted(weighted),
         _invalidValue(_calcInvalid(directed, weighted)),
         _weightRange(_calcWeightRange(weighted)) {
