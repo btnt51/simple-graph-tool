@@ -29,8 +29,6 @@ public:
 private:
     QLabel *label;
     QLineEdit *lineEdit;
-    QCheckBox *weightedCheckBox;
-    QCheckBox *directedCheckBox;
     QDialogButtonBox *buttonBox;
 };
 

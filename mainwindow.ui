@@ -231,12 +231,12 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
-            <height>2520</height>
+            <width>1024</width>
+            <height>960</height>
            </size>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tabVisualization">
            <attribute name="title">
@@ -262,36 +262,6 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tabIncMat">
-           <attribute name="title">
-            <string>Incidence Matrix</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <layout class="QVBoxLayout" name="incMatLayout"/>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-         <widget class="QTextEdit" name="consoleText">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-            <horstretch>240</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>240</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>720</height>
-           </size>
-          </property>
          </widget>
         </widget>
        </item>
@@ -317,6 +287,19 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
+           <spacer name="verticalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>100</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <layout class="QVBoxLayout" name="propertiesLayout">
             <property name="bottomMargin">
              <number>6</number>
@@ -325,52 +308,6 @@
           </item>
           <item>
            <widget class="Line" name="line_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="topMargin">
-             <number>6</number>
-            </property>
-            <property name="bottomMargin">
-             <number>3</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Animation interval</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSlider" name="horizontalSlider">
-              <property name="minimum">
-               <number>10</number>
-              </property>
-              <property name="maximum">
-               <number>600</number>
-              </property>
-              <property name="sliderPosition">
-               <number>300</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="Line" name="line">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -445,148 +382,10 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QPushButton" name="HamiltonBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Hamiltonian</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
-               <widget class="QPushButton" name="aStarBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>A-star</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="dijkstraBtn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Dijkstra</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="coloringBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Coloring</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="topoSortBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Topo sort</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="bridgesBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Find all bridges</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="articulationNodeBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Find all articulation nodes</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="spanningTreeBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Find minimum spanning tree</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="cyclesBtn">
-              <property name="text">
-               <string>Find independent sets of cycle</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="connectedComponentsBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Find strongly connected components</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="weaklyConnectedBtn">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Find weakly connected components</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_6"/>
             </item>
            </layout>
           </item>
@@ -604,10 +403,59 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>85</height>
+              <height>150</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="consoleText">
+              <property name="minimumSize">
+               <size>
+                <width>128</width>
+                <height>128</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>256</width>
+                <height>256</height>
+               </size>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
            <spacer name="verticalSpacer">
@@ -642,7 +490,7 @@
      <x>0</x>
      <y>0</y>
      <width>1950</width>
-     <height>37</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -691,20 +539,10 @@
     <addaction name="actionBFS"/>
     <addaction name="actionDFS"/>
     <addaction name="separator"/>
-    <addaction name="actionA_star"/>
-    <addaction name="actionDijkstra"/>
     <addaction name="separator"/>
-    <addaction name="actionColoring"/>
-    <addaction name="actionTopo_Sorting"/>
     <addaction name="separator"/>
     <addaction name="actionEuler_Cycle"/>
-    <addaction name="actionHamiltonian_Cycle"/>
     <addaction name="separator"/>
-    <addaction name="actionFind_all_bridges"/>
-    <addaction name="actionFind_all_Articulation_nodes"/>
-    <addaction name="actionFInd_minimum_spanning_tree"/>
-    <addaction name="actionFind_weakly_connected_components"/>
-    <addaction name="actionFind_connected_components"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuGraph"/>
@@ -788,64 +626,9 @@
     <string>&amp;DFS</string>
    </property>
   </action>
-  <action name="actionColoring">
-   <property name="text">
-    <string>&amp;Coloring</string>
-   </property>
-  </action>
-  <action name="actionTopo_Sorting">
-   <property name="text">
-    <string>&amp;Topo Sorting</string>
-   </property>
-  </action>
   <action name="actionEuler_Cycle">
    <property name="text">
     <string>&amp;Euler Cycle</string>
-   </property>
-  </action>
-  <action name="actionHamiltonian_Cycle">
-   <property name="text">
-    <string>&amp;Hamiltonian Cycle</string>
-   </property>
-  </action>
-  <action name="actionDijkstra">
-   <property name="text">
-    <string>Dijkstra</string>
-   </property>
-  </action>
-  <action name="actionFind_all_bridges">
-   <property name="text">
-    <string>Find all bridges</string>
-   </property>
-  </action>
-  <action name="actionFind_all_Articulation_nodes">
-   <property name="text">
-    <string>Find all Articulation nodes</string>
-   </property>
-  </action>
-  <action name="actionFind_connected_components">
-   <property name="text">
-    <string>Find strongly connected components</string>
-   </property>
-  </action>
-  <action name="actionFInd_minimum_spanning_tree">
-   <property name="text">
-    <string>Find minimum spanning tree</string>
-   </property>
-  </action>
-  <action name="actionFind_weakly_connected_components">
-   <property name="text">
-    <string>Find weakly connected components</string>
-   </property>
-  </action>
-  <action name="actionA_star">
-   <property name="text">
-    <string>A-star</string>
-   </property>
-  </action>
-  <action name="actionFind_all_cycles">
-   <property name="text">
-    <string>Find fundamental sets of cycle</string>
    </property>
   </action>
  </widget>

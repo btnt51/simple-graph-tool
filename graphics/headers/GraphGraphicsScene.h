@@ -33,7 +33,8 @@ public slots:
     void reload();
 
     void setInterval(int interval) {
-        this->_interval = interval;
+        interval = 300;
+        this->_interval = 300;
         if (_uniqueTimer)
             this->_uniqueTimer->setInterval(interval);
     }

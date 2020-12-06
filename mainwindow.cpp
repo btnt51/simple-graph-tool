@@ -56,8 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(graphChanged()), this, SLOT(onGraphChanged()));
     connect(_adjMatrix, SIGNAL(graphChanged()), this, SLOT(onGraphChanged()));
     connect(_scene, SIGNAL(graphChanged()), this, SLOT(onGraphChanged()));
-    _scene->setInterval(_ui->horizontalSlider->value());
-    connect(_ui->horizontalSlider, &QSlider::valueChanged, _scene, &GraphGraphicsScene::setInterval);
+    _scene->setInterval(20);
 
     connect(_view, SIGNAL(unSelected()), _elementPropertiesTable, SLOT(onUnSelected()));
     connect(this, SIGNAL(graphChanged()), _elementPropertiesTable, SLOT(onGraphChanged()));
@@ -197,7 +196,7 @@ MainWindow::MainWindow(QWidget *parent) :
     });
 
     _ui->adjMatLayout->addWidget(this->_adjMatrix, 0, Qt::AlignCenter);
-    _ui->incMatLayout->addWidget(this->_incidenceMatrix, 0, Qt::AlignCenter);
+    //_ui->incMatLayout->addWidget(this->_incidenceMatrix, 0, Qt::AlignCenter);
     auto gLabel = new QLabel(this);
     gLabel->setText("Graph properties");
     _ui->propertiesLayout->addWidget(gLabel);
@@ -221,19 +220,20 @@ void MainWindow::resetGraph(Graph *graph) {
     this->_incidenceMatrix->setGraph(_graph);
     this->_elementPropertiesTable->setGraph(_graph);
     this->_graphPropertiesTable->setGraph(_graph);
-    _ui->coloringBtn->setVisible(_graph->isUndirected());
-    _ui->actionColoring->setVisible(_graph->isUndirected());
-    _ui->topoSortBtn->setVisible(_graph->isDirected());
-    _ui->cyclesBtn->setVisible(_graph->isUndirected());
-    _ui->actionTopo_Sorting->setVisible(_graph->isDirected());
-    _ui->weaklyConnectedBtn->setVisible(_graph->isDirected());
-    _ui->actionFind_weakly_connected_components->setVisible(_graph->isDirected());
-    _ui->connectedComponentsBtn->setText(_graph->isDirected() ?
-                                         "Find strongly connected components"
-                                                              : "Find connected components");
-    _ui->actionFind_connected_components->setText(_graph->isDirected() ?
-                                                  "Find strongly connected components"
-                                                                       : "Find connected components");
+
+    //_ui->coloringBtn->setVisible(_graph->isUndirected());
+    //_ui->actionColoring->setVisible(_graph->isUndirected());
+    //_ui->topoSortBtn->setVisible(_graph->isDirected());
+   // _ui->cyclesBtn->setVisible(_graph->isUndirected());
+    //_ui->actionTopo_Sorting->setVisible(_graph->isDirected());
+    //_ui->weaklyConnectedBtn->setVisible(_graph->isDirected());
+    //_ui->actionFind_weakly_connected_components->setVisible(_graph->isDirected());
+    //_ui->connectedComponentsBtn->setText(_graph->isDirected() ?
+      //                                   "Find strongly connected components"
+       //                                                       : "Find connected components");
+    //_ui->actionFind_connected_components->setText(_graph->isDirected() ?
+    //                                             "Find strongly connected components"
+     //                                                                  : "Find connected components");
 }
 
 void MainWindow::initWorkspace(const QString &filename, bool new_file) {

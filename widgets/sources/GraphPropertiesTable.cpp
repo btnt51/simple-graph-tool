@@ -13,8 +13,8 @@ GraphPropertiesTable::GraphPropertiesTable(GraphType::Graph *graph, int sectionS
 void GraphPropertiesTable::setGraph(GraphType::Graph *graph) {
     this->_graph = graph;
     QStringList tableHeader;
-    tableHeader << tr("Total node(s)") << tr("Total edge(s)") << tr("Weighted") << tr("Directed");
-    this->setRowCount(4);
+    tableHeader << tr("Total node(s)") << tr("Total edge(s)");
+    this->setRowCount(2);
     this->setColumnCount(1);
     this->setVerticalHeaderLabels(tableHeader);
 
@@ -25,8 +25,6 @@ void GraphPropertiesTable::setGraph(GraphType::Graph *graph) {
     }
     this->item(0, 0)->setText(QString::number(this->_graph->countNodes()));
     this->item(1, 0)->setText(QString::number(this->_graph->countEdges()));
-    this->item(2, 0)->setText(QVariant(_graph->isWeighted()).toString());
-    this->item(3, 0)->setText(QVariant(_graph->isDirected()).toString());
 }
 
 GraphPropertiesTable::GraphPropertiesTable(GraphType::Graph *graph) : GraphPropertiesTable(graph, 48) {}
