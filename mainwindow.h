@@ -111,6 +111,10 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_isFull_clicked();
+
+    void on_sum_clicked();
+
 signals:
 
     void graphChanged();

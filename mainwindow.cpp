@@ -720,3 +720,15 @@ void MainWindow::on_tabWidget_currentChanged(int index) {
     _elementPropertiesTable->onUnSelected();
 }
 
+
+void MainWindow::on_isFull_clicked()
+{
+    _ui->consoleText->clear();
+    _ui->consoleText->append(GraphUtils::isFull(this->_graph));
+}
+
+void MainWindow::on_sum_clicked()
+{
+    _ui->consoleText->clear();
+    _ui->consoleText->append(GraphUtils::SummaryOfAllNodesDegrees(this->_graph));
+}

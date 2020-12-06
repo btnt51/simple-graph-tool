@@ -385,6 +385,20 @@
              </layout>
             </item>
             <item>
+             <widget class="QPushButton" name="isFull">
+              <property name="text">
+               <string>Проверка на полноту</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="sum">
+              <property name="text">
+               <string>Сумма степеней вершин</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6"/>
             </item>
            </layout>

@@ -1038,3 +1038,17 @@ std::list<std::list<std::string>> GraphUtils::Gotlieb(const Graph *graph) {
     }
     return result;
 }
+
+QString GraphUtils::isFull(const Graph *graph)
+{
+    int n = graph->countNodes();
+    int full = (n*(n-1))/2;
+    return full == graph->countEdges() ? "Graph is full" : "Graph is not full";
+}
+
+QString GraphUtils::SummaryOfAllNodesDegrees(const Graph *graph)
+{
+    int n = graph->countEdges() * 2;
+    return "Сумма степеней всех вершин равна " + QString::number(n);
+}
+

@@ -13,7 +13,7 @@ GraphPropertiesTable::GraphPropertiesTable(GraphType::Graph *graph, int sectionS
 void GraphPropertiesTable::setGraph(GraphType::Graph *graph) {
     this->_graph = graph;
     QStringList tableHeader;
-    tableHeader << tr("Total node(s)") << tr("Total edge(s)");
+    tableHeader << tr("Количество вершин") << tr("Количество рёбер");
     this->setRowCount(2);
     this->setColumnCount(1);
     this->setVerticalHeaderLabels(tableHeader);

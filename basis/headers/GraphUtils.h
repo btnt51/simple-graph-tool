@@ -79,6 +79,10 @@ public:
     static std::list<std::list<std::string>> displayAllCycles(const Graph *graph);
 
     static std::list<std::list<std::string>> Gotlieb(const Graph *graph);
+
+    static QString isFull(const Graph *graph);
+
+    static QString SummaryOfAllNodesDegrees(const Graph *graph);
 };
 
 #endif
