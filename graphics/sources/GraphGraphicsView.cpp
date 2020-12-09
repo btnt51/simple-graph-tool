@@ -68,16 +68,6 @@ void GraphGraphicsView::contextMenuEvent(QContextMenuEvent *event) {
                     emit startAlgorithm(StartAlgoFlag::BFS, node_name);
                 if (act->text().contains("DFS"))
                     emit startAlgorithm(StartAlgoFlag::DFS, node_name);
-                if (act->text().contains("Dijkstra"))
-                    emit startAlgorithm(StartAlgoFlag::Dijkstra, node_name);
-                if (act->text().contains("A-star"))
-                    emit startAlgorithm(StartAlgoFlag::AStar, node_name);
-                if (act->text().contains("Prim"))
-                    emit startAlgorithm(StartAlgoFlag::Prim, node_name);
-                if (act->text().contains("ST by DFS"))
-                    emit startAlgorithm(StartAlgoFlag::ST_DFS, node_name);
-                if (act->text().contains("ST by BFS"))
-                    emit startAlgorithm(StartAlgoFlag::ST_BFS, node_name);
             } else {
                 item->setSelected(false);
             }

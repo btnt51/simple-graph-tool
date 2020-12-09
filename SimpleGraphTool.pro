@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+        dvninputdialog.cpp \
         graphics\sources\EdgeGraphicsItem.cpp \
         basis\sources\Graph.cpp \
         graphics\sources\GraphGraphicsScene.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
         widgets\sources\MultiComboboxDialog.cpp
 
 HEADERS += \
+    dvninputdialog.h \
     graphics\headers\EdgeGraphicsItem.h \
     graphics\headers\GraphGraphicsScene.h \
     graphics\headers\GraphGraphicsView.h \

@@ -83,6 +83,9 @@ public:
     static QString isFull(const Graph *graph);
 
     static QString SummaryOfAllNodesDegrees(const Graph *graph);
+
+    static void DFSRadix(const Graph *graph, const std::string &vname, std::unordered_map<std::string, bool> &visited,
+                                     std::list<std::string> &vertexes, int radix);
 };
 
 #endif

@@ -236,7 +236,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tabVisualization">
            <attribute name="title">
@@ -395,6 +395,13 @@
              <widget class="QPushButton" name="sum">
               <property name="text">
                <string>Сумма степеней вершин</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="dVN">
+              <property name="text">
+               <string>D(v,n)</string>
               </property>
              </widget>
             </item>

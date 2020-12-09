@@ -7,6 +7,7 @@
 #include <QtGui>
 #include <QMessageBox>
 #include <QTimer>
+#include <DVNINPUTDIALOG.h>
 #include <widgets/headers/GraphOptionDialog.h>
 #include "utils/qdebugstream.h"
 
@@ -731,4 +732,25 @@ void MainWindow::on_sum_clicked()
 {
     _ui->consoleText->clear();
     _ui->consoleText->append(GraphUtils::SummaryOfAllNodesDegrees(this->_graph));
+}
+
+void MainWindow::on_dVN_clicked()
+{
+    std::unordered_map<std::string, bool> visited;
+    std::list<std::string> vertexes;
+    int radix{};
+    QStringList items;
+    for (auto node: _graph->nodeList())
+        items.append(QString::fromStdString(node->name()));
+    auto source = DVNINPUTDIALOG::initDVN(this,items,radix);
+    GraphUtils::DFSRadix(_graph, source, visited, vertexes, radix);
+    QString list;
+    QString space = " ";
+    std::for_each(vertexes.begin(), vertexes.end(), [&list, &space](auto &el){
+        list.append(QString::fromStdString(el));
+        list.append(space);
+    });
+    _ui->consoleText->clear();
+    _ui->consoleText->append("Нач. вершина (" + QString::fromStdString(source) + "):");
+    _ui->consoleText->append(list);
 }

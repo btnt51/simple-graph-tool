@@ -1052,3 +1052,17 @@ QString GraphUtils::SummaryOfAllNodesDegrees(const Graph *graph)
     return "Сумма степеней всех вершин равна " + QString::number(n);
 }
 
+void GraphUtils::DFSRadix(const Graph *graph, const std::string &vname, std::unordered_map<std::string, bool> &visited,
+                          std::list<std::string> &vertexes, int radix)
+{
+    visited[vname] = true;
+    if(radix ==0){
+        vertexes.push_back(vname);
+        return;
+    }
+    for (auto &adj: graph->nodeList()) {
+        if (graph->hasEdge(vname, adj->name()) && !visited[adj->name()])
+                     DFSRadix(graph, adj->name(), visited, vertexes, radix-1);
+    }
+}
+

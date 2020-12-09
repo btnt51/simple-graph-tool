@@ -115,6 +115,8 @@ private slots:
 
     void on_sum_clicked();
 
+    void on_dVN_clicked();
+
 signals:
 
     void graphChanged();
