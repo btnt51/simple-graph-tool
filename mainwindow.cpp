@@ -7,7 +7,7 @@
 #include <QtGui>
 #include <QMessageBox>
 #include <QTimer>
-#include <DVNINPUTDIALOG.h>
+#include <dvninputdialog.h>
 #include <widgets/headers/GraphOptionDialog.h>
 #include "utils/qdebugstream.h"
 
@@ -123,72 +123,22 @@ MainWindow::MainWindow(QWidget *parent) :
                     this->_ui->consoleText->clear();
                     auto result = GraphUtils::DFSToDemo(this->_graph, source_name);
                     emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-                } else if (algo == StartAlgoFlag::Prim) {
-                    this->_ui->consoleText->clear();
-                    auto result = GraphUtils::Prim(this->_graph, source_name);
-                    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-
-                } else if (algo == StartAlgoFlag::Dijkstra) {
-                    bool ok;
-                    QStringList items;
-                    for (auto node: _graph->nodeList())
-                        items.append(QString::fromStdString(node->name()));
-                    auto goal = QInputDialog::getItem(this, "Target node:", "Name", items, 0, false, &ok);
-                    if (ok) {
-                        if (goal.isNull())
-                            return;
-                        auto target = this->_graph->node(goal.toStdString());
-                        if (!this->_graph->hasNode(target)) {
-                            QMessageBox::critical(this, "Error", tr("No node named ") + goal);
-                            return;
-                        }
-                        this->_ui->consoleText->clear();
-                        auto result = GraphUtils::Dijkstra(this->_graph, source_name, target->name());
-                        emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-                    }
-                } else if (algo == StartAlgoFlag::AStar) {
-                    bool ok;
-                    QStringList items;
-                    for (auto node: _graph->nodeList())
-                        items.append(QString::fromStdString(node->name()));
-                    auto goal = QInputDialog::getItem(this, "Target node:", "Name", items, 0, false, &ok);
-                    if (ok) {
-                        if (goal.isNull())
-                            return;
-                        auto target = this->_graph->node(goal.toStdString());
-                        if (!this->_graph->hasNode(target)) {
-                            QMessageBox::critical(this, "Error", tr("No node named ") + goal);
-                            return;
-                        }
-                        this->_ui->consoleText->clear();
-                        auto result = GraphUtils::AStar(this->_graph, source_name, target->name());
-                        emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-                    }
-                } else if (algo == StartAlgoFlag::ST_BFS) {
-                    this->_ui->consoleText->clear();
-                    auto result = GraphUtils::spanningTreeBFS(this->_graph, source_name);
-                    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-
-                } else if (algo == StartAlgoFlag::ST_DFS) {
-                    this->_ui->consoleText->clear();
-                    auto result = GraphUtils::spanningTreeDFS(this->_graph, source_name);
-                    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
                 }
             });
     connect(_view, &GraphGraphicsView::nodeEdited, this, [this](const std::string &node_name) {
         bool ok;
-        QRegExp re("[a-zA-Z0-9]{1,30}");
-        auto new_name = QInputDialog::getText(this, "Rename node", "Name: ", QLineEdit::Normal,
+        QRegExp re("[a-zA-Z0-9]{1,3}");
+        auto new_name = QInputDialog::getText(this, "Изменить название вершины", "Имя: ", QLineEdit::Normal,
                                               QString::fromStdString(_graph->nextNodeName()), &ok);
         if (ok) {
             if (!re.exactMatch(new_name)) {
-                QMessageBox::critical(this, "Error",
-                                      tr("Node's name contains only alphabetical or numeric characters\n")
-                                      + tr("Length of the name mustn't be greater than 30 or smaller than 1"));
+                QMessageBox::critical(this, "Ошибка", "Название вершины должно состоять только из английского алфавита или цифр\n"
+                                                     +
+                                                     tr("Длина имени не должно превышать больше 3 символов и не может быть меньше 1"));
                 return;
             }
             if (this->_graph->hasNode(new_name.toStdString()))
-                QMessageBox::critical(this, "Error", "This name has been used by another node");
+                QMessageBox::critical(this, "Ошибка", "Это имя уже занято другой вершиной");
             else {
                 this->_graph->setNodeName(node_name, new_name.toStdString());
                 emit graphChanged();
@@ -197,13 +147,12 @@ MainWindow::MainWindow(QWidget *parent) :
     });
 
     _ui->adjMatLayout->addWidget(this->_adjMatrix, 0, Qt::AlignCenter);
-    //_ui->incMatLayout->addWidget(this->_incidenceMatrix, 0, Qt::AlignCenter);
     auto gLabel = new QLabel(this);
-    gLabel->setText("Graph properties");
+    gLabel->setText("Свойства графа");
     _ui->propertiesLayout->addWidget(gLabel);
     _ui->propertiesLayout->addWidget(this->_graphPropertiesTable, 0, Qt::AlignTop);
     auto eLabel = new QLabel(this);
-    eLabel->setText("Selected element properties");
+    eLabel->setText("Свойство выбранного элемента");
     eLabel->setContentsMargins(0, 12, 0, 0);
     _ui->propertiesLayout->addWidget(eLabel);
     _ui->propertiesLayout->addWidget(this->_elementPropertiesTable, 0, Qt::AlignTop);
@@ -221,20 +170,6 @@ void MainWindow::resetGraph(Graph *graph) {
     this->_incidenceMatrix->setGraph(_graph);
     this->_elementPropertiesTable->setGraph(_graph);
     this->_graphPropertiesTable->setGraph(_graph);
-
-    //_ui->coloringBtn->setVisible(_graph->isUndirected());
-    //_ui->actionColoring->setVisible(_graph->isUndirected());
-    //_ui->topoSortBtn->setVisible(_graph->isDirected());
-   // _ui->cyclesBtn->setVisible(_graph->isUndirected());
-    //_ui->actionTopo_Sorting->setVisible(_graph->isDirected());
-    //_ui->weaklyConnectedBtn->setVisible(_graph->isDirected());
-    //_ui->actionFind_weakly_connected_components->setVisible(_graph->isDirected());
-    //_ui->connectedComponentsBtn->setText(_graph->isDirected() ?
-      //                                   "Find strongly connected components"
-       //                                                       : "Find connected components");
-    //_ui->actionFind_connected_components->setText(_graph->isDirected() ?
-    //                                             "Find strongly connected components"
-     //                                                                  : "Find connected components");
 }
 
 void MainWindow::initWorkspace(const QString &filename, bool new_file) {
@@ -242,8 +177,8 @@ void MainWindow::initWorkspace(const QString &filename, bool new_file) {
     try {
         if (!new_file) {
             if (this->_dataNeedSaving) {
-                QMessageBox::StandardButton reply = QMessageBox::question(this, "Save Graph?",
-                                                                          "Your changes will be lost if you don't save them!",
+                QMessageBox::StandardButton reply = QMessageBox::question(this, "Сохранить граф?",
+                                                                          "Ваши изминения пропадут если вы их не сохрнаите!!",
                                                                           QMessageBox::No | QMessageBox::Yes |
                                                                           QMessageBox::Cancel);
                 if (reply == QMessageBox::Cancel)
@@ -263,8 +198,8 @@ void MainWindow::initWorkspace(const QString &filename, bool new_file) {
     }
     catch (...) {
         setWorkspaceEnabled(false);
-        QMessageBox::critical(this, "Error",
-                              "Something is wrong with this file",
+        QMessageBox::critical(this, "Ошибки",
+                              "Что-то пошло не так",
                               QMessageBox::Cancel);
         if (_workingFilename != "") setWorkspaceEnabled(true);
         return;
@@ -286,8 +221,8 @@ MainWindow::~MainWindow() {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (_dataNeedSaving) {
-        QMessageBox::StandardButton reply = QMessageBox::question(this, "Save Graph?",
-                                                                  "Your changes will be lost if you don't save them!",
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Сохранить граф?",
+                                                                  "Ваши изминения пропадут если вы их не сохрнаите!!",
                                                                   QMessageBox::No | QMessageBox::Yes |
                                                                   QMessageBox::Cancel);
         if (reply == QMessageBox::Yes)
@@ -300,9 +235,9 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 QString MainWindow::showOpenFileDialog() {
     return QFileDialog::getOpenFileName(
             this,
-            tr("Open Document"),
+            tr("Открыть файл"),
             QDir::currentPath(),
-            tr("Graph files (*.gph)"),
+            tr("Файлы графа (*.gph)"),
             nullptr,
             QFileDialog::DontUseNativeDialog);
 }
@@ -318,9 +253,9 @@ QString MainWindow::showSaveFileDialog() {
             break;
         }
     }
-    return QFileDialog::getSaveFileName(this, tr("New Graph"),
+    return QFileDialog::getSaveFileName(this, tr("Новый граф"),
                                         newFilename,
-                                        tr("Graph files (*.gph)"),
+                                        tr("Граф файлы (*.gph)"),
                                         nullptr,
                                         QFileDialog::DontUseNativeDialog);
 }
@@ -328,19 +263,19 @@ QString MainWindow::showSaveFileDialog() {
 void MainWindow::showNewNodeDialog(QPointF pos) {
     bool ok;
     QRegExp re("[a-zA-Z0-9]{1,3}");
-    QString newNodeName = QInputDialog::getText(this, "Add new node", "Name: ", QLineEdit::Normal,
+    QString newNodeName = QInputDialog::getText(this, "Добавить вершину", "Имя: ", QLineEdit::Normal,
                                                 QString::fromStdString(_graph->nextNodeName()), &ok);
     if (ok) {
         if (!re.exactMatch(newNodeName)) {
-            QMessageBox::critical(this, "Error", tr("Node's name contains only alphabetical or numeric characters\n")
+            QMessageBox::critical(this, "Ошибка", "Название вершины должно состоять только из английского алфавита или цифр\n"
                                                  +
-                                                 tr("Length of the name mustn't be greater than 3 or smaller than 1"));
+                                                 tr("Длина имени не должно превышать больше 3 символов и не может быть меньше 1"));
             return;
         }
         Node newNode(newNodeName.toStdString(), pos);
         bool succeeded = _graph->addNode(newNode);
         if (!succeeded)
-            QMessageBox::critical(this, "Error", "This name has been used by another node");
+            QMessageBox::critical(this, "Ошибка", "Это имя уже используется для другой вершины");
         else
                 emit graphChanged();
     }
@@ -353,7 +288,7 @@ void MainWindow::setWorkspaceEnabled(bool ready) {
     _ui->menuAlgorithms->setEnabled(ready);
     for (auto action: _ui->menuFile->actions())
         if (!action->menu() && !action->isSeparator()
-            && action->text().contains("Save"))
+            && action->text().contains("Сохранить"))
             action->setEnabled(ready);
     if (ready)
         _view->scale(1, 1);
@@ -381,7 +316,7 @@ void MainWindow::on_actionSave_triggered() {
     if (_dataNeedSaving) {
         this->_dataNeedSaving = false;
         Graph::writeToFile(_workingFilename.toStdString(), *_graph);
-        _ui->statusBar->showMessage("Saved successfully");
+        _ui->statusBar->showMessage("Успешно сохранено");
         QTimer::singleShot(2000, this, [this]() {
             this->_ui->statusBar->clearMessage();
         });
@@ -407,7 +342,9 @@ void MainWindow::on_actionOpen_Graph_triggered() {
 }
 
 void MainWindow::on_actionCredits_triggered() {
-    QMessageBox::about(this, "Credit", "Author: Hao Phan Phu - KHTN2018 - UIT");
+    QMessageBox::about(this, "Авторы", "Главный разработчик: Hao Phan Phu - KHTN2018 - UIT, \nИдейный последователи и пере"
+                                       "водичики: Байлов Е.В. Алексенков А.Е. \nКрылов Л.К. "
+                                       "Нургалиева А.И. Калекина М.А. Ключникова Д.Д. ");
 }
 
 void MainWindow::on_actionExit_triggered() {
@@ -421,27 +358,27 @@ void MainWindow::on_actionAddNode_triggered() {
 void MainWindow::on_actionAddEdge_triggered() {
     bool ok{};
     QList<QString> labelText;
-    labelText.push_back("From node: ");
-    labelText.push_back("To node: ");
+    labelText.push_back("Первая вершина: ");
+    labelText.push_back("Вторая вершина: ");
     labelText.push_back("Weight: ");
-    QList<QString> list = MultiLineInputDialog::getStrings(this, "Add new edge", labelText, &ok);
+    QList<QString> list = MultiLineInputDialog::getStrings(this, "Добавить новое ребрно", labelText, &ok);
     QRegExp re("\\d*");
     if (ok && !list.empty() && re.exactMatch(list[2])) {
         bool succeeded = _graph->setEdge(list[0].toStdString(), list[1].toStdString(), list[2].toInt());
         if (succeeded)
                 emit graphChanged();
         else
-            QMessageBox::critical(this, "Error", "Cannot set this edge!");
+            QMessageBox::critical(this, "Ошибка", "Нельзя создать такое ребро!");
     }
 }
 
 void MainWindow::on_actionEditEdge_triggered() {
     bool ok{};
     QList<QString> labelText;
-    labelText.push_back("From node: ");
-    labelText.push_back("To node: ");
+    labelText.push_back("Первая вершина: ");
+    labelText.push_back("Вторая вершина: ");
     labelText.push_back("Weight: ");
-    QList<QString> list = MultiLineInputDialog::getStrings(this, "Edit edge", labelText, &ok);
+    QList<QString> list = MultiLineInputDialog::getStrings(this, "Изменить ребро", labelText, &ok);
     QRegExp re("\\d*");
     if (ok && !list.empty() && re.exactMatch(list[2])) {
         if (_graph->hasEdge(list[0].toStdString(), list[1].toStdString())) {
@@ -451,17 +388,17 @@ void MainWindow::on_actionEditEdge_triggered() {
                 return;
             }
         }
-        QMessageBox::critical(this, "Error", "There's no edge like this!");
+        QMessageBox::critical(this, "Ошибка", "Здесь нет такого ребра!");
     }
 }
 
 void MainWindow::on_actionDelNode_triggered() {
     bool ok;
-    QString nameToDel = QInputDialog::getText(this, "Delete node", "Name: ", QLineEdit::Normal, QString(), &ok);
+    QString nameToDel = QInputDialog::getText(this, "Удалить вершину", "Имя вершины: ", QLineEdit::Normal, QString(), &ok);
     if (ok) {
         bool succeeded = _graph->removeNode(nameToDel.toStdString());
         if (!succeeded)
-            QMessageBox::critical(this, "Error", "There's no node like this!");
+            QMessageBox::critical(this, "Ошибка", "Несуществует такой вершины!");
         else
                 emit graphChanged();
     }
@@ -470,132 +407,16 @@ void MainWindow::on_actionDelNode_triggered() {
 void MainWindow::on_actionDelEdge_triggered() {
     bool ok{};
     QList<QString> labelText;
-    labelText.push_back("From node: ");
-    labelText.push_back("To node: ");
-    QList<QString> list = MultiLineInputDialog::getStrings(this, "Delete edge", labelText, &ok);
+    labelText.push_back("Веришна 1: ");
+    labelText.push_back("Вершина 2: ");
+    QList<QString> list = MultiLineInputDialog::getStrings(this, "Удалить ребро", labelText, &ok);
     if (ok && !list.empty()) {
         bool succeeded = _graph->removeEdge(list[0].toStdString(), list[1].toStdString());
         if (succeeded)
                 emit graphChanged();
         else
-            QMessageBox::critical(this, "Error", "There's no edge like this!");
+            QMessageBox::critical(this, "Ошибка", "Между этими вершинами нет ребра!");
     }
-}
-
-void MainWindow::on_articulationNodeBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayArticulationNodes(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::OnlyNode);
-}
-
-void MainWindow::on_bridgesBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayBridges(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::OnlyEdge);
-}
-
-void MainWindow::on_coloringBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayColoring(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::Coloring);
-}
-
-void MainWindow::on_weaklyConnectedBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayConnectedComponents(_graph, false);
-    emit startDemoAlgorithm(result, GraphDemoFlag::Component);
-
-}
-
-void MainWindow::on_connectedComponentsBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayConnectedComponents(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::Component);
-}
-
-void MainWindow::on_cyclesBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayAllCycles(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-}
-
-void MainWindow::on_dijkstraBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    bool ok{};
-    QStringList labels;
-    labels << "From node: " << "To node: ";
-    QList<QStringList> itemLists;
-    QStringList items;
-    for (auto node: _graph->nodeList())
-        items << QString::fromStdString(node->name());
-    itemLists << items << items;
-    QList<QString> replies = MultiComboboxDialog::getItems(this, "Dijkstra", labels, itemLists, &ok);
-    if (ok) {
-        replies[0] = replies[0].trimmed();
-        replies[1] = replies[1].trimmed();
-        if (replies[0].isNull() || replies[1].isNull() || replies[0] == replies[1])
-            return;
-        auto startNode = _graph->node(replies[0].toStdString());
-        auto endNode = _graph->node(replies[1].toStdString());
-        if (!_graph->hasNode(startNode)) {
-            QMessageBox::critical(this, "Error", tr("No node named ") + replies[0]);
-            return;
-        }
-        if (!_graph->hasNode(endNode)) {
-            QMessageBox::critical(this, "Error", tr("No node named ") + replies[1]);
-            return;
-        }
-        auto result = GraphUtils::Dijkstra(_graph, startNode->name(), endNode->name());
-        emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-    }
-}
-
-
-void MainWindow::on_aStarBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    bool ok{};
-    QStringList labels;
-    labels << "From node: " << "To node: ";
-    QList<QStringList> itemLists;
-    QStringList items;
-    for (auto node: _graph->nodeList())
-        items << QString::fromStdString(node->name());
-    itemLists << items << items;
-    QList<QString> replies = MultiComboboxDialog::getItems(this, "Dijkstra", labels, itemLists, &ok);
-    if (ok) {
-        replies[0] = replies[0].trimmed();
-        replies[1] = replies[1].trimmed();
-        if (replies[0].isNull() || replies[1].isNull() || replies[0] == replies[1])
-            return;
-        auto startNode = _graph->node(replies[0].toStdString());
-        auto endNode = _graph->node(replies[1].toStdString());
-        if (!_graph->hasNode(startNode)) {
-            QMessageBox::critical(this, "Error", tr("No node named ") + replies[0]);
-            return;
-        }
-        if (!_graph->hasNode(endNode)) {
-            QMessageBox::critical(this, "Error", tr("No node named ") + replies[1]);
-            return;
-        }
-        auto result = GraphUtils::AStar(_graph, startNode->name(), endNode->name());
-        emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-    }
-}
-
-void MainWindow::on_topoSortBtn_clicked() {
-
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayTopoSort(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::OnlyNode);
 }
 
 void MainWindow::on_BFSbtn_clicked() {
@@ -604,7 +425,7 @@ void MainWindow::on_BFSbtn_clicked() {
     QStringList items;
     for (auto node: _graph->nodeList())
         items.append(QString::fromStdString(node->name()));
-    auto source_str = QInputDialog::getItem(this, "Source node:", "Name", items, 0, false, &ok);
+    auto source_str = QInputDialog::getItem(this, "Начальная вершина:", "Имя", items, 0, false, &ok);
     if (ok) {
         if (source_str.isNull())
             return;
@@ -614,7 +435,7 @@ void MainWindow::on_BFSbtn_clicked() {
             auto result = GraphUtils::BFSToDemo(_graph, source->name());
             emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
         } else {
-            QMessageBox::critical(this, "Error", tr("No node named ") + source_str);
+            QMessageBox::critical(this, "Ошибка", tr("Вершина не названа ") + source_str);
         }
     }
 }
@@ -625,7 +446,7 @@ void MainWindow::on_DFSbtn_clicked() {
     QStringList items;
     for (auto node: _graph->nodeList())
         items.append(QString::fromStdString(node->name()));
-    auto source_str = QInputDialog::getItem(this, "Source node:", "Name", items, 0, false, &ok);
+    auto source_str = QInputDialog::getItem(this, "Начальная вершина:", "Имя", items, 0, false, &ok);
     if (ok) {
         if (source_str.isNull())
             return;
@@ -635,7 +456,7 @@ void MainWindow::on_DFSbtn_clicked() {
             auto result = GraphUtils::DFSToDemo(_graph, source->name());
             emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
         } else
-            QMessageBox::critical(this, "Error", tr("No node named ") + source_str);
+            QMessageBox::critical(this, "Ошибка", tr("Веришна не названа ") + source_str);
     }
 }
 
@@ -647,19 +468,7 @@ void MainWindow::on_EulerBtn_clicked() {
     emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
 }
 
-void MainWindow::on_HamiltonBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::displayAllHamiltonianCircuits(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-}
 
-void MainWindow::on_spanningTreeBtn_clicked() {
-    _ui->consoleText->clear();
-    QDebugStream qout(std::cout, _ui->consoleText);
-    auto result = GraphUtils::Prim(_graph);
-    emit startDemoAlgorithm(result, GraphDemoFlag::EdgeAndNode);
-}
 
 void MainWindow::on_actionBFS_triggered() {
     on_BFSbtn_clicked();
@@ -669,53 +478,11 @@ void MainWindow::on_actionDFS_triggered() {
     on_DFSbtn_clicked();
 }
 
-void MainWindow::on_actionColoring_triggered() {
-    on_coloringBtn_clicked();
-}
-
-void MainWindow::on_actionTopo_Sorting_triggered() {
-    on_topoSortBtn_clicked();
-}
 
 void MainWindow::on_actionEuler_Cycle_triggered() {
     on_EulerBtn_clicked();
 }
 
-void MainWindow::on_actionHamiltonian_Cycle_triggered() {
-    on_HamiltonBtn_clicked();
-}
-
-void MainWindow::on_actionDijkstra_triggered() {
-    on_dijkstraBtn_clicked();
-}
-
-void MainWindow::on_actionA_star_triggered() {
-    on_aStarBtn_clicked();
-}
-
-void MainWindow::on_actionFind_all_cycles_triggered() {
-    on_cyclesBtn_clicked();
-}
-
-void MainWindow::on_actionFind_all_bridges_triggered() {
-    on_bridgesBtn_clicked();
-}
-
-void MainWindow::on_actionFind_all_Articulation_nodes_triggered() {
-    on_articulationNodeBtn_clicked();
-}
-
-void MainWindow::on_actionFind_connected_components_triggered() {
-    on_connectedComponentsBtn_clicked();
-}
-
-void MainWindow::on_actionFInd_minimum_spanning_tree_triggered() {
-    on_spanningTreeBtn_clicked();
-}
-
-void MainWindow::on_actionFind_weakly_connected_components_triggered() {
-    on_weaklyConnectedBtn_clicked();
-}
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
     _elementPropertiesTable->onUnSelected();

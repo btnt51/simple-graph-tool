@@ -14,7 +14,7 @@ std::list<std::pair<std::string, std::string>> GraphUtils::BFSToDemo(const Graph
     std::unordered_map<std::string, std::string> parent;
     q.push(source);
     visited[source] = true;
-    std::cout << "BFS (source = " << source << "): ";
+    std::cout << "Поиск в ширину (начальная вершина = " << source << "): ";
 
     while (!q.empty()) {
         auto vname = q.front();
@@ -45,7 +45,7 @@ std::list<std::pair<std::string, std::string>> GraphUtils::DFSToDemo(const Graph
     s.push(source);
     visited[source] = true;
 
-    std::cout << "DFS (source = " << source << "): ";
+    std::cout << "Поиск в глубину (начальная вершина = " << source << "): ";
     while (!s.empty()) {
         auto vname = s.top();
         std::cout << vname << " ";
@@ -678,7 +678,7 @@ std::list<std::list<std::string>>
 GraphUtils::displayAllEulerianCircuits(const Graph *graph) {
     std::list<std::list<std::string>> result;
     if (!isAllConnected(graph)) {
-        std::cout << "Eulerian Circuit not found because the graph is not connected\n";
+        std::cout << "Цикл Эйлера не найден потому что граф не соединенён\n";
         return result;
     }
     for (auto &node: graph->nodeList()) {
@@ -686,14 +686,14 @@ GraphUtils::displayAllEulerianCircuits(const Graph *graph) {
             std::cout << "Eulerian Circuit not found because Node " << node->name() << " has deg+ != deg-\n";
             return result;
         } else if (graph->isUndirected() && node->undirDegree() % 2 != 0) {
-            std::cout << "Eulerian Circuit not found because degree of Node " << node->name() << " is odd\n";
+            std::cout << "Эйлеровый цикл не найден потому что одна из вершин " << node->name() << " не соединенна со всеми остальными\n";
             return result;
         }
     }
     for (auto &node: graph->nodeList()) {
         auto cycle = getEulerianCircuit(graph, node->name());
         if (!cycle.empty()) {
-            std::cout << "Euler Circuit (source = " << node->name() << "): ";
+            std::cout << "Эйлеровый цикл(начальная вершина = " << node->name() << "): ";
             result.emplace_back(cycle);
             while (!cycle.empty()) {
                 std::cout << cycle.front() << " ";
@@ -1043,7 +1043,7 @@ QString GraphUtils::isFull(const Graph *graph)
 {
     int n = graph->countNodes();
     int full = (n*(n-1))/2;
-    return full == graph->countEdges() ? "Graph is full" : "Graph is not full";
+    return full == graph->countEdges() ? "Граф полный" : "Граф не полный";
 }
 
 QString GraphUtils::SummaryOfAllNodesDegrees(const Graph *graph)

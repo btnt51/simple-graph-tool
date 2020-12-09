@@ -37,65 +37,47 @@ void GraphGraphicsView::contextMenuEvent(QContextMenuEvent *event) {
             auto node_name = nodeItem->node()->name();
             emit nodeSelected(node_name);
             QMenu menu;
-            menu.addAction("&Set edge to (Select other node by mouse)");
+            menu.addAction("&Провести ребро до (Выберете другую вершину мышкой)");
             menu.addSeparator();
-            menu.addAction("&Delete");
-            menu.addAction("&Isolate");
-            menu.addAction("Re&name");
-            menu.addSeparator();
-            menu.addAction("BFS from here");
-            menu.addAction("DFS from here");
-            menu.addSeparator();
-            menu.addAction("Dijkstra");
-            menu.addAction("A-star");
-            menu.addSeparator();
-            menu.addAction("MST by Prim");
-            menu.addAction("ST by BFS");
-            menu.addAction("ST by DFS");
+            menu.addAction("&Удалить");
+            menu.addAction("&Изолировать");
+            menu.addAction("&Переназвать");
             QAction *act = menu.exec(event->globalPos());
             if (act != nullptr) {
-                if (act->text() == "Re&name")
+                if (act->text() == "&Переназвать")
                     emit nodeEdited(node_name);
-                if (act->text() == "&Isolate")
+                if (act->text() == "&Изолировать")
                     emit nodeIsolated(node_name);
-                if (act->text() == "&Delete")
+                if (act->text() == "&Удалить")
                     emit nodeRemoved(node_name);
-                if (act->text().contains("&Set edge to")) {
+                if (act->text().contains("&Провести ребро до")) {
                     this->_selectTargetNode = true;
                     this->_startItem = nodeItem;
                 }
-                if (act->text().contains("BFS"))
-                    emit startAlgorithm(StartAlgoFlag::BFS, node_name);
-                if (act->text().contains("DFS"))
-                    emit startAlgorithm(StartAlgoFlag::DFS, node_name);
             } else {
                 item->setSelected(false);
             }
         } else if (edgeItem) {
             QMenu menu;
-            menu.addAction("&Delete");
-            if (dynamic_cast<GraphGraphicsScene *>(scene())->graph()->isWeighted())
-                menu.addAction("Adjust &weight");
+            menu.addAction("&Удалить");
             emit edgeSelected(edgeItem->edge().u()->name(), edgeItem->edge().v()->name());
             QAction *act = menu.exec(event->globalPos());
             if (act != nullptr) {
-                if (act->text() == "&Delete")
+                if (act->text() == "&Удалить")
                    emit edgeRemoved(edgeItem->edge().u()->name(), edgeItem->edge().v()->name());
-                if (act->text() == "Adjust &weight")
-                   emit edgeSet(edgeItem->edge().u()->name(), edgeItem->edge().v()->name());
             }
         }
     } else {
         if (!scene()->selectedItems().empty())
             scene()->selectedItems()[0]->setSelected(false);
         QMenu menu;
-        menu.addAction("Create node now");
-        menu.addAction("Create node...");
+        menu.addAction("Авто-генерация вершины");
+        menu.addAction("Создать вершину");
         QAction *act = menu.exec(event->globalPos());
         if (act) {
-            if (act->text() == "Create node...")
+            if (act->text() == "Создать вершину")
                emit nodeAdded(mapToScene(event->pos()), false);
-            else if (act->text() == "Create node now")
+            else if (act->text() == "Авто-генерация вершины")
                emit nodeAdded(mapToScene(event->pos()), true);
         }
     }
